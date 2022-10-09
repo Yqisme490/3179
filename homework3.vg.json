@@ -30,7 +30,7 @@
     },
     "tooltip": [
       {"field": "properties.STE_NAME16", "type": "nominal", "title": "State"},
-      {"field": "Estimate\\.Base\\.Salary", "type": "quantitative"}
+      {"field": "Estimate\\.Base\\.Salary", "type": "quantitative", "title":"Estimate Base Salary"}
     ]
     
   }
