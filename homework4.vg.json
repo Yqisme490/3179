@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple pie chart with embedded data.",
+  "height":400,
+  "width":400,
+  "title":"The most important skills for top 5 data science jobs",
+  "data": {
+    "url": "https://raw.githubusercontent.com/Yqisme490/Fit3179_Vis2/main/top5Skills_2.csv"
+  },
+  "params": [
+    {
+      "name": "job_selection",
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Data Scientist",
+          "Data Analyst",
+          "Data Engineer",
+          "Machine Learning Engineer",
+          "Data Specialist"
+        ],
+        "labels": [
+          "Show All",
+          "Data Scientist",
+          "Data Analyst",
+          "Data Engineer",
+          "Machine Learning Engineer",
+          "Data Specialist"
+        ],
+        "name": "Job Title Selection: "
+      }
+    }
+  ],
+ "transform": [
+    {
+        "aggregate": [{
+         "op": "sum",
+         "field": "required",
+         "as": "countVal"
+        }],
+        "groupby": ["JobTitle","skill"]
+    },
+    {
+      "filter": "job_selection == null || datum.JobTitle == job_selection"
+    },
+    {
+      "window": [{
+        "op": "rank",
+        "as": "rank"
+      }],
+      "sort": [{ "field": "countVal", "order": "descending" }]
+      }
+  ],
+
+  "mark": "bar",
+  "encoding": {
+    "y": {"field": "countVal", "type": "quantitative", "title":"Count"},
+    "x": {"field": "skill", "type": "nominal", "title":"Skill", "sort": {"op": "sum", "field": "rank","order":"ascending"}
+    },
+    "color":{"field":"JobTitle"},
+    "tooltip": [
+      {"field": "skill", "type": "nominal", "title": "Skill"},
+      {"field": "countVal", "type": "quantitative", "title":"Count"}
+    ]
+  }
+}
